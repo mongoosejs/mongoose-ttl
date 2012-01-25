@@ -1,7 +1,7 @@
 
 #Mongoose-TTL Plugin
 
-Provides time-to-live support [Mongoose](http://mongoosejs.com).
+Provides time-to-live support for [Mongoose](http://mongoosejs.com).
 
 Options:
 
@@ -17,7 +17,7 @@ var schema = new Schema({..});
 schema.plugin(ttl, { ttl: 5000 });
 ```
 
-The ttl option supports the ms module by @guille meaning
+The ttl option supports the ms module by [guille](https://github.com/guille) meaning
 we can specify ttls with friendlier syntax. Example:
 
 ```
