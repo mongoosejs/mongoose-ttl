@@ -1,7 +1,7 @@
 
 #Mongoose-TTL Plugin
 
-Provides time-to-live support [Mongoose]http://mongoosejs.com).
+Provides time-to-live support [Mongoose](http://mongoosejs.com).
 
 Options:
 
@@ -36,7 +36,7 @@ The expired document reaper can be disabled by passing `reap: false`.
 Useful when working in multi-core environments when we only want one
 process executing it.
 
-```
+```js
 var schema = new Schema({..});
 schema.plugin(ttl, { ttl: 5000, reap: false });
 var Cache = db.model('Cache', schema);
