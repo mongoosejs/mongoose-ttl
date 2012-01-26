@@ -3,7 +3,7 @@
 
 Provides time-to-live support for [Mongoose](http://mongoosejs.com).
 
-[Build Status](https://secure.travis-ci.org/aheckmann/mongoose-ttl.png)
+[![Build Status](https://secure.travis-ci.org/aheckmann/mongoose-ttl.png)](http://travis-ci.org/aheckmann/mongoose-ttl)
 
 Options:
 
