@@ -3,6 +3,8 @@
 
 Provides time-to-live support for [Mongoose](http://mongoosejs.com).
 
+[Build Status](https://secure.travis-ci.org/aheckmann/mongoose-ttl.png)
+
 Options:
 
   - ttl: the time each doc should live in the db (default 60 seconds)
