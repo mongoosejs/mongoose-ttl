@@ -66,4 +66,7 @@ default plugin state.
 ```js
 cache.resetTTL();
 ```
+## Mongoose Version
+>= 2.5.2
 
+[LICENCE](https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE)
