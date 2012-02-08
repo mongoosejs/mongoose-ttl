@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "main": "index",
   "repository": {
+    "type": "git",
     "url": "git://github.com/aheckmann/mongoose-ttl.git"
   },
   "scripts": {
