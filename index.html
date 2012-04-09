@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mongoose-ttl by aheckmann</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Mongoose-ttl</h1>
+<p>Provides time-to-live support for Mongoose</p>
+        <p class="view"><a href="https://github.com/aheckmann/mongoose-ttl">View the Project on GitHub <small>aheckmann/mongoose-ttl</small></a></p>
+        <ul>
+          <li><a href="https://github.com/aheckmann/mongoose-ttl/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/aheckmann/mongoose-ttl/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/aheckmann/mongoose-ttl">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Mongoose-TTL Plugin</h1>
+
+<p>Provides time-to-live support for <a href="http://mongoosejs.com">Mongoose</a>.</p>
+
+<p><a href="http://travis-ci.org/aheckmann/mongoose-ttl"><img src="https://secure.travis-ci.org/aheckmann/mongoose-ttl.png" alt="Build Status"></a></p>
+
+<p>Options:</p>
+
+<ul>
+<li>ttl: the time each doc should live in the db (default 60 seconds)</li>
+<li>interval: how often the expired doc reaper runs (default 5 mins)</li>
+<li>reap: enable the expired doc reaper (default true)</li>
+<li>onReap: callback passed to reaper execution</li>
+</ul><p>Example:</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
+<span class="nx">schema</span><span class="p">.</span><span class="nx">plugin</span><span class="p">(</span><span class="nx">ttl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">ttl</span><span class="o">:</span> <span class="mi">5000</span> <span class="p">});</span>
+</pre>
+</div>
+
+
+<p>The ttl option supports the ms module by <a href="https://github.com/guille">guille</a> meaning
+we can specify ttls with friendlier syntax. Example:</p>
+
+<pre><code> value     milliseconds
+========================
+ '2d'      172800000
+ '1.5h'    5400000
+ '1h'      3600000
+ '1m'      60000
+ '5s'      5000
+ '500ms'   500
+ 100       100
+</code></pre>
+
+<p>The expired document reaper can be disabled by passing <code>reap: false</code>.
+Useful when working in multi-core environments when we only want one
+process executing it.</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
+<span class="nx">schema</span><span class="p">.</span><span class="nx">plugin</span><span class="p">(</span><span class="nx">ttl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">ttl</span><span class="o">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="nx">reap</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
+<span class="kd">var</span> <span class="nx">Cache</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">model</span><span class="p">(</span><span class="s1">'Cache'</span><span class="p">,</span> <span class="nx">schema</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">isMyWorker</span><span class="p">)</span> <span class="nx">Cache</span><span class="p">.</span><span class="nx">startTTLReaper</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<p>The reaper can also be stopped.</p>
+
+<div class="highlight">
+<pre><span class="nx">Cache</span><span class="p">.</span><span class="nx">stopTTLReaper</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<p>Time-to-live is specified at the collection level, however
+it can also be overridden for a given document.</p>
+
+<div class="highlight">
+<pre><span class="kd">var</span> <span class="nx">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cache</span><span class="p">;</span>
+<span class="nx">cache</span><span class="p">.</span><span class="nx">ttl</span> <span class="o">=</span> <span class="s1">'2m'</span> <span class="c1">// lives for two minutes</span>
+<span class="nx">cache</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<p>We can also reset the ttl for a given document to its
+default plugin state.</p>
+
+<div class="highlight">
+<pre><span class="nx">cache</span><span class="p">.</span><span class="nx">resetTTL</span><span class="p">();</span>
+</pre>
+</div>
+
+
+<h2>Mongoose Version</h2>
+
+<p><code>&gt;= 2.5.2</code></p>
+
+<p><a href="https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE">LICENCE</a></p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/aheckmann">aheckmann</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-30723525-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
