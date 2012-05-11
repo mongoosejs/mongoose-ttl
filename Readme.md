@@ -1,4 +1,3 @@
-
 #Mongoose-TTL Plugin
 
 Provides time-to-live support for [Mongoose](http://mongoosejs.com).
@@ -68,5 +67,8 @@ cache.resetTTL();
 ```
 ## Mongoose Version
 >= 2.5.2
+
+### MongoDB TTL collections
+MongoDB is getting official support for TTL collections [soon-ish](https://github.com/mongodb/mongo/commit/25bdc679a0e559d64ec7f22b0468cf5b1671c4e7) at which point this plugin will need to change.
 
 [LICENCE](https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE)
