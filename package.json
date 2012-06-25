@@ -12,14 +12,13 @@
     "test": "make test"
   },
   "engines": {
-    "node": "~0.4.x < 0.7.0"
+    "node": ">0.4.x"
   },
   "dependencies": {
     "ms": "0.1.0"
   },
   "devDependencies": {
-    "mongoose": "2.5.2",
-    "mocha": "0.10.1",
-    "should": "0.5.1"
+    "mongoose": "2.7.0",
+    "mocha": "1.2.1"
   }
 }
