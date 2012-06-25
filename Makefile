@@ -1,6 +1,6 @@
 TESTS = test/*.js
 
 test:
-	@./node_modules/.bin/mocha --reporter list --require should $(TESTFLAGS) $(TESTS)
+	@./node_modules/.bin/mocha --reporter list $(TESTFLAGS) $(TESTS)
 
 .PHONY: test
