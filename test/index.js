@@ -2,7 +2,7 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , ttl = require('../')
-  , should = require('should')
+  , assert = require('assert')
 
 mongoose.connect('localhost', 'mongoose_test_ttl');
 
@@ -35,7 +35,7 @@ describe('ttl', function () {
     mongoose.connection.on('open', function () {
       mongoose.connection.db.dropDatabase(function (err) {
         if (err) return done(err);
-        should.exist(T.__ttl);
+        assert.ok(T.__ttl);
         done();
       });
     });
@@ -48,10 +48,10 @@ describe('ttl', function () {
       t.save(function (err) {
         if (err) return done(err);
 
-        T.find({ name: /latte$/ }).run(function (err, docs) {
+        T.find({ name: /latte$/ }).exec(function (err, docs) {
           if (err) return done(err);
-          docs.length.should.equal(1)
-          t.id.should.equal(docs[0].id);
+          assert.equal(1, docs.length);
+          assert.equal(t.id,docs[0].id);
           done();
         });
       });
@@ -63,9 +63,9 @@ describe('ttl', function () {
         if (err) return done(err);
 
         setTimeout(function () {
-          T.find({ name: 'Tha Blob' }).run(function (err, docs) {
+          T.find({ name: 'Tha Blob' }).exec(function (err, docs) {
             if (err) return done(err);
-            docs.length.should.equal(0)
+            assert.equal(0, docs.length);
             done();
           });
         }, ttl_ );
@@ -78,7 +78,7 @@ describe('ttl', function () {
     var t;
     before(function (done) {
       T.create({ name: 'Tha Blob' }, function (err, t_) {
-        should.strictEqual(null, err);
+        assert.strictEqual(null, err);
         t = t_;
         done();
       });
@@ -92,49 +92,49 @@ describe('ttl', function () {
       var pending = 7;
 
       T.where('name').exists().exec(function (err, docs) {
-        should.strictEqual(null, err);
-        docs.length.should.equal(1);
-        t.id.should.equal(docs[0].id);
+        assert.strictEqual(null, err);
+        assert.equal(docs.length,1);
+        assert.equal(t.id,docs[0].id);
         if (!--pending) done();
       });
 
       T.findOne({ name: 'Tha Blob' }, function (err, doc) {
-        should.strictEqual(null, err);
-        t.id.should.equal(doc.id);
+        assert.strictEqual(null, err);
+        assert.equal(t.id,doc.id);
         if (!--pending) done();
       });
 
       T.count({}, function (err, n) {
-        should.strictEqual(null, err);
-        n.should.equal(1);
+        assert.strictEqual(null, err);
+        assert.equal(n,1);
         if (!--pending) done();
       });
 
-      T.find().where('name', 'Tha Blob').run(function (err, docs) {
-        should.strictEqual(null, err);
-        docs.length.should.equal(1);
-        t.id.should.equal(docs[0].id);
+      T.find().where('name', 'Tha Blob').exec(function (err, docs) {
+        assert.strictEqual(null, err);
+        assert.equal(docs.length,1);
+        assert.equal(t.id,docs[0].id);
         if (!--pending) done();
       });
 
       T.distinct('name', { _id: { $exists: true }}, function (err, t) {
-        should.strictEqual(null, err);
-        t.length.should.equal(1);
-        t[0].should.equal('Tha Blob');
+        assert.strictEqual(null, err);
+        assert.equal(t.length,1);
+        assert.equal(t[0],'Tha Blob');
         if (!--pending) done();
       });
 
       T.$where('this.name == "Tha Blob"').exec(function (err, docs) {
-        should.strictEqual(null, err);
-        docs.length.should.equal(1);
-        t.id.should.equal(docs[0].id);
+        assert.strictEqual(null, err);
+        assert.equal(1, docs.length);
+        assert.equal(t.id,docs[0].id);
         if (!--pending) done();
       });
 
       T.find({ __ttl: { $exists: true } }).exec(function (err, docs) {
-        should.strictEqual(null, err);
-        docs.length.should.equal(1);
-        t.id.should.equal(docs[0].id);
+        assert.strictEqual(null, err);
+        assert.equal(docs.length,1);
+        assert.equal(t.id,docs[0].id);
         if (!--pending) done();
       });
     });
@@ -142,10 +142,10 @@ describe('ttl', function () {
     it('should convert __ttl params to $and arrays', function () {
       var query = T.find({ __ttl: { $exists: true } });
       var c = query._conditions;
-      c.should.have.property('$and');
-      c.$and.length.should.equal(2);
+      assert.ok(c.hasOwnProperty('$and'));
+      assert.equal(c.$and.length,2);
       c.$and.forEach(function (arg) {
-        arg.should.have.property('__ttl');
+        assert.ok(arg.hasOwnProperty('__ttl'));
       });
     });
   });
@@ -154,7 +154,7 @@ describe('ttl', function () {
     describe('getters', function () {
       it('should return the current ttl', function () {
         var t = new T;
-        t.ttl.should.be.an.instanceof(Date);
+        assert.ok(t.ttl instanceof Date);
       });
     });
 
@@ -163,13 +163,13 @@ describe('ttl', function () {
         var now = Date.now();
         var t = new T;
 
-        (t.ttl - (now + 1000)).should.be.below(4);
+        assert.ok((t.ttl - (now + 1000)) < 4);
         t.ttl = '2s';
-        (t.ttl - (now + 2000)).should.be.below(4);
+        assert.ok((t.ttl - (now + 2000)) < 4);
         t.ttl = 3001;
-        (t.ttl - (now + 3001)).should.be.below(4);
+        assert.ok((t.ttl - (now + 3001)) < 4);
         t.ttl = '500ms';
-        (t.ttl - (now + 500)).should.be.below(4);
+        assert.ok((t.ttl - (now + 500)) < 4);
       });
 
       it('should honor the ttl', function (done) {
@@ -179,21 +179,21 @@ describe('ttl', function () {
         var pending = 2;
 
         t.save(function (err) {
-          should.strictEqual(null, err);
+          assert.strictEqual(null, err);
         });
 
         setTimeout(function () {
           T.findById(t, function (err, b) {
-            should.strictEqual(null, err);
-            should.exist(b);
+            assert.strictEqual(null, err);
+            assert.ok(b);
             finish();
           });
         }, 1200);
 
         setTimeout(function () {
           T.findById(t, function (err, b) {
-            should.strictEqual(null, err);
-            should.not.exist(b);
+            assert.strictEqual(null, err);
+            assert.ok(!b);
             finish();
           });
         }, 2200);
@@ -212,9 +212,9 @@ describe('ttl', function () {
       var now = Date.now();
       var t = new T;
       t.ttl = '2d';
-      ;(t.ttl - (now + 172800000)).should.be.below(4);
+      assert.ok((t.ttl - (now + 172800000)) < 4);
       t.resetTTL();
-      ;(t.ttl - (now + 1000)).should.be.below(4);
+      assert.ok((t.ttl - (now + 1000)) < 4);
     });
   });
 
@@ -223,13 +223,13 @@ describe('ttl', function () {
     it('should remove all expired docs', function (done) {
       this.timeout(interval * 3);
       T.create({ name: 'Interval reaped' }, function (err, t) {
-        should.strictEqual(null, err);
+        assert.strictEqual(null, err);
 
         setTimeout(function () {
           reaper.once('reap', function () {
             T.collection.count(function (err, count) {
-              should.strictEqual(err, null);
-              count.should.equal(0);
+              assert.strictEqual(err, null);
+              assert.equal(0, count);
               done();
             });
           });
@@ -239,21 +239,21 @@ describe('ttl', function () {
     });
 
     it('should fire the optional callback', function () {
-      reaperCb.should.be.true;
+      assert.strictEqual(true, reaperCb);
     });
 
     it('should be disabled', function () {
-      T.should.have.property('__ttl');
+      assert.ok(T.hasOwnProperty('__ttl'));
       T.stopTTLReaper();
-      T.should.not.have.property('__ttl');
+      assert.ok(!T.hasOwnProperty('__ttl'));
 
       T.create({ name: 'reaper killed' }, function (err, t) {
-        should.strictEqual(null, err);
+        assert.strictEqual(null, err);
 
         setTimeout(function () {
           T.collection.count(function (err, count) {
-            should.strictEqual(err, null);
-            count.should.equal(1);
+            assert.strictEqual(err, null);
+            assert.equal(1, count);
             done();
           });
         }, interval + 10);
@@ -265,7 +265,7 @@ describe('ttl', function () {
   after(function () {
     describe('ttl index', function () {
       it('should be created', function (done) {
-        indexCreated.should.be.true;
+        assert.equal(true, indexCreated);
         T.collection.getIndexes({ full: true }, function (err, indexes) {
           if (err) return done(err);
 
@@ -273,8 +273,8 @@ describe('ttl', function () {
             return '__ttl_1' === idx.name;
           })[0];
 
-          should.exist(index);
-          index.background.should.be.true;
+          assert.ok(index);
+          assert.equal(true, index.background);
           mongoose.disconnect(done);
         });
       });
