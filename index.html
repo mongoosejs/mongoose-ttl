@@ -18,7 +18,7 @@
     <div class="wrapper">
       <header>
         <h1>Mongoose-ttl</h1>
-<p>Provides time-to-live support for Mongoose</p>
+        <p>Provides time-to-live support for Mongoose</p>
         <p class="view"><a href="https://github.com/aheckmann/mongoose-ttl">View the Project on GitHub <small>aheckmann/mongoose-ttl</small></a></p>
         <ul>
           <li><a href="https://github.com/aheckmann/mongoose-ttl/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -42,12 +42,9 @@
 <li>onReap: callback passed to reaper execution</li>
 </ul><p>Example:</p>
 
-<div class="highlight">
-<pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
 <span class="nx">schema</span><span class="p">.</span><span class="nx">plugin</span><span class="p">(</span><span class="nx">ttl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">ttl</span><span class="o">:</span> <span class="mi">5000</span> <span class="p">});</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>The ttl option supports the ms module by <a href="https://github.com/guille">guille</a> meaning
 we can specify ttls with friendlier syntax. Example:</p>
@@ -67,55 +64,49 @@ we can specify ttls with friendlier syntax. Example:</p>
 Useful when working in multi-core environments when we only want one
 process executing it.</p>
 
-<div class="highlight">
-<pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Schema</span><span class="p">({..});</span>
 <span class="nx">schema</span><span class="p">.</span><span class="nx">plugin</span><span class="p">(</span><span class="nx">ttl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">ttl</span><span class="o">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="nx">reap</span><span class="o">:</span> <span class="kc">false</span> <span class="p">});</span>
 <span class="kd">var</span> <span class="nx">Cache</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">model</span><span class="p">(</span><span class="s1">'Cache'</span><span class="p">,</span> <span class="nx">schema</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">isMyWorker</span><span class="p">)</span> <span class="nx">Cache</span><span class="p">.</span><span class="nx">startTTLReaper</span><span class="p">();</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>The reaper can also be stopped.</p>
 
-<div class="highlight">
-<pre><span class="nx">Cache</span><span class="p">.</span><span class="nx">stopTTLReaper</span><span class="p">();</span>
-</pre>
-</div>
-
+<div class="highlight"><pre><span class="nx">Cache</span><span class="p">.</span><span class="nx">stopTTLReaper</span><span class="p">();</span>
+</pre></div>
 
 <p>Time-to-live is specified at the collection level, however
 it can also be overridden for a given document.</p>
 
-<div class="highlight">
-<pre><span class="kd">var</span> <span class="nx">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cache</span><span class="p">;</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Cache</span><span class="p">;</span>
 <span class="nx">cache</span><span class="p">.</span><span class="nx">ttl</span> <span class="o">=</span> <span class="s1">'2m'</span> <span class="c1">// lives for two minutes</span>
 <span class="nx">cache</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>We can also reset the ttl for a given document to its
 default plugin state.</p>
 
-<div class="highlight">
-<pre><span class="nx">cache</span><span class="p">.</span><span class="nx">resetTTL</span><span class="p">();</span>
-</pre>
-</div>
-
+<div class="highlight"><pre><span class="nx">cache</span><span class="p">.</span><span class="nx">resetTTL</span><span class="p">();</span>
+</pre></div>
 
 <h2>Mongoose Version</h2>
 
-<p><code>&gt;= 2.5.2</code></p>
+<blockquote>
+<p>= 2.5.2</p>
+</blockquote>
 
-<p><a href="https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE">LICENCE</a></p>
+<h3>MongoDB TTL collections</h3>
+
+<p>MongoDB &gt;= 2.2 has official support for <a href="http://docs.mongodb.org/manual/tutorial/expire-data/">TTL collections</a>. The official feature is not quite as flexible as this plugin but offers alternative benefits a plugin cannot. Consider reading the <a href="http://docs.mongodb.org/manual/tutorial/expire-data/">docs</a> and making an informed choice.</p>
+
+<p><a href="https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE">LICENSE</a></p>
       </section>
     </div>
     <footer>
       <p>Project maintained by <a href="https://github.com/aheckmann">aheckmann</a></p>
       <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
     </footer>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
