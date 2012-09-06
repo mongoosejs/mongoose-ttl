@@ -69,6 +69,6 @@ cache.resetTTL();
 >= 2.5.2
 
 ### MongoDB TTL collections
-MongoDB is getting official support for TTL collections [soon-ish](https://github.com/mongodb/mongo/commit/25bdc679a0e559d64ec7f22b0468cf5b1671c4e7) at which point this plugin will need to change.
+MongoDB >= 2.2 has official support for [TTL collections](http://docs.mongodb.org/manual/tutorial/expire-data/). The official feature is not quite as flexible as this plugin but offers alternative benefits a plugin cannot. Consider reading the [docs](http://docs.mongodb.org/manual/tutorial/expire-data/) and making an informed choice.
 
 [LICENSE](https://github.com/aheckmann/mongoose-ttl/blob/master/LICENSE)
