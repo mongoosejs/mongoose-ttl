@@ -14,6 +14,7 @@ Options:
 Example:
 
 ```js
+var ttl = require('mongoose-ttl');
 var schema = new Schema({..});
 schema.plugin(ttl, { ttl: 5000 });
 ```
@@ -38,6 +39,7 @@ Useful when working in multi-core environments when we only want one
 process executing it.
 
 ```js
+var ttl = require('mongoose-ttl');
 var schema = new Schema({..});
 schema.plugin(ttl, { ttl: 5000, reap: false });
 var Cache = db.model('Cache', schema);
