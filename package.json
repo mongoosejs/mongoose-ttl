@@ -15,10 +15,10 @@
     "node": ">0.4.x"
   },
   "dependencies": {
-    "ms": "0.1.0"
+    "ms": "~0.7.1"
   },
   "devDependencies": {
-    "mongoose": "2.7.0",
-    "mocha": "1.2.1"
+    "mongoose": "5.x",
+    "mocha": "5.x"
   }
 }
